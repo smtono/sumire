@@ -1,8 +1,10 @@
 import os
 
 import discord
+
 from discord.ext import commands
 from dotenv import load_dotenv
+
 import conversation
 
 load_dotenv()
@@ -29,5 +31,11 @@ async def on_message(message):
         question = message.content
         answer = conversation.ask(question)
         await message.channel.send(answer)
+
+@commands.command()
+async def test(ctx):
+    await ctx.send("test")
+    
+client.add_command(test)
 
 client.run(TOKEN)
