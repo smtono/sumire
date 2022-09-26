@@ -36,6 +36,6 @@ async def on_message(message):
 async def test(ctx):
     await ctx.send("test")
     
-client.add_command(test)
+#client.add_command(test)
 
 client.run(TOKEN)

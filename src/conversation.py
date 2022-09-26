@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-sumire = os.path.join(os.getcwd(), 'src', 'scripts', 'sumire.txt')
+sumire = os.path.join(os.getcwd(), 'src', 'scripts', 'sumire_personality.txt')
 gordon = os.path.join(os.getcwd(), 'src', 'scripts', 'gordon_personality.txt')
 jackass = os.path.join(os.getcwd(), 'src', 'scripts', 'jackass_personality.txt')
 nerd = os.path.join(os.getcwd(), 'src', 'scripts', 'nerd_personality.txt')
