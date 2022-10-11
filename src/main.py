@@ -26,16 +26,10 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    channels = ["command-console", "atrium"]
+    channels = ["command-console"]
     if message.channel.name in channels:
         question = message.content
         answer = conversation.ask(question)
         await message.channel.send(answer)
-
-@commands.command()
-async def test(ctx):
-    await ctx.send("test")
-    
-#client.add_command(test)
 
 client.run(TOKEN)

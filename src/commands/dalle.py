@@ -1,6 +1,5 @@
-"""
 import torch
-from dalle_pytorch import OpenAIDiscreteVAE, DALLE
+from dalle_pytorch import OpenAIDiscreteVAE, DiscreteVAE, DALLE
 
 vae = OpenAIDiscreteVAE()       # loads pretrained OpenAI VAE
 
@@ -21,4 +20,3 @@ images = torch.randn(4, 3, 256, 256)
 
 loss = dalle(text, images, return_loss = True)
 loss.backward()
-"""
