@@ -6,6 +6,7 @@ from discord.ext import commands
 from dotenv import load_dotenv
 
 import conversation
+import dalle
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -26,10 +27,15 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    channels = ["command-console"]
+    channels = ["atrium", "command-console"]
     if message.channel.name in channels:
-        question = message.content
-        answer = conversation.ask(question)
-        await message.channel.send(answer)
+        user_input = message.content.split()
+        
+        if user_input[0] == "dalle":
+            answer = dalle.ask(user_input[1:])
+            await message.channel.send(answer)
+        else:
+            answer = conversation.ask(user_input[0:])
+            await message.channel.send(answer)
 
 client.run(TOKEN)
