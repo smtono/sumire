@@ -5,8 +5,7 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
-import conversation
-import dalle
+from veritas import conversation, dalle
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -27,10 +26,12 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    channels = ["atrium", "command-console"]
+    # Command parsing start here
+    channels = ["general"]
     if message.channel.name in channels:
         user_input = message.content.split()
-        
+    
+    # Do generic parsing based on command in commands directory?
         if user_input[0] == "dalle":
             answer = dalle.ask(user_input[1:])
             await message.channel.send(answer)
