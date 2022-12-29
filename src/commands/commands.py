@@ -70,6 +70,13 @@ class Parser():
         """
         Returns a response to a user's input
         """
+        # Grab person talking
+        
+        # Check for their log in db
+        
+        # Possibly start a new thread? With only this person interacting
+        
+        # While loop until person says "stop"
 
     def dalle_command(self):
         """
