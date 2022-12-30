@@ -48,6 +48,18 @@ from dotenv import load_dotenv
 from commands import parser
 from veritas import conversation, dalle
 
+# Set up global variables
+ctx = {
+    "database": None,
+    "discord": None,
+    "conversation": None,
+    "dalle": None,
+    "parser": None
+}
+
+#####################
+#       Config      
+#####################
 # Load environment variables
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -69,14 +81,16 @@ client = discord.Client(intents=intents)
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
 
+# Begin command parsing
 @client.event
 async def on_message(message):
+    # Ignore messages from the bot
     if message.author == client.user:
         return
 
     # Command parsing start here
-    channels = ["general"]
-    if message.channel.name in channels:
+    supported_channels = ["general", "bot-commands" "sumire-bot"]
+    if message.channel.name in supported_channels:
         user_input = message.content.split()
         await message.channel.send(parser.parse_command(user_input))
 
