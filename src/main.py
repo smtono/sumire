@@ -77,21 +77,7 @@ client = commands.Bot(command_prefix="sumire ", intents=intents)
 
 client = discord.Client(intents=intents)
 
-@client.event
-async def on_ready():
-    print(f'{client.user} has connected to Discord!')
-
 # Begin command parsing
-@client.event
-async def on_message(message):
-    # Ignore messages from the bot
-    if message.author == client.user:
-        return
-
-    # Command parsing start here
-    supported_channels = ["general", "bot-commands" "sumire-bot"]
-    if message.channel.name in supported_channels:
-        user_input = message.content.split()
-        await message.channel.send(parser.parse_command(user_input))
+# Event loop
 
 client.run(TOKEN)
