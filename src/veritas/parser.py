@@ -12,11 +12,15 @@ Commands include:
 
 import discord
 
+from veritas import conversation, dalle
+
 class Parser():
-    commands = {
-        "help": self.help_command,
-        "ping": self.ping_command,
-    }
+    
+    def __init__(self) -> None:
+        commands = {
+            "help": self.help_command,
+            "ping": self.ping_command,
+        }
 
     def parse_command(self, args: list):
         """
@@ -66,9 +70,15 @@ class Parser():
         Returns an invite link
         """
 
-    def talk_command(self):
+    def talk_command(self, user_input: str):
         """
-        Returns a response to a user's input
+        Begins a conversation with the user
+        
+        Args:
+            user_input: str
+                User's input
+        Returns:
+            None
         """
         # Grab person talking
         
@@ -77,8 +87,16 @@ class Parser():
         # Possibly start a new thread? With only this person interacting
         
         # While loop until person says "stop"
+        answer = conversation.ask(user_input)
 
-    def dalle_command(self):
+    def dalle_command(self, user_input: str):
         """
         Returns a generated image
+        
+        Args:
+            user_input: str
+                User's input
+        Returns:
+            None
         """
+        answer = dalle.ask(user_input)

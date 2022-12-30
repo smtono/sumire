@@ -45,6 +45,7 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
+from commands import parser
 from veritas import conversation, dalle
 
 # Load environment variables
@@ -54,6 +55,9 @@ GUILD = os.getenv('DISCORD_GUILD')
 
 # Database setup
 # TODO: Create database
+
+# Parser setup
+parser = parser.Parser()
 
 # Discord Setup
 intents = discord.Intents().all()
@@ -74,13 +78,6 @@ async def on_message(message):
     channels = ["general"]
     if message.channel.name in channels:
         user_input = message.content.split()
-    
-    # Do generic parsing based on command in commands directory?
-        if user_input[0] == "dalle":
-            answer = dalle.ask(user_input[1:])
-            await message.channel.send(answer)
-        else:
-            answer = conversation.ask(user_input[0:])
-            await message.channel.send(answer)
+        await message.channel.send(parser.parse_command(user_input))
 
 client.run(TOKEN)
