@@ -14,9 +14,26 @@ import discord
 
 from veritas import conversation, dalle
 
+# TODO: put this snippet when sending messages in commands
+"""
+@client.event
+async def on_message(message):
+    # Ignore messages from the bot
+    if message.author == client.user:
+        return
+
+    # Command parsing start here
+    supported_channels = ["general", "bot-commands" "sumire-bot"]
+    if message.channel.name in supported_channels:
+        user_input = message.content.split()
+        await message.channel.send(parser.parse_command(user_input))
+"""
+
 class Parser():
     
-    def __init__(self) -> None:
+    def __init__(self, client: discord.client) -> None:
+        self.client = client
+
         commands = {
             "help": self.help_command,
             "ping": self.ping_command,
