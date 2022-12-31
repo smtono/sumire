@@ -78,6 +78,26 @@ client = commands.Bot(command_prefix="sumire ", intents=intents)
 client = discord.Client(intents=intents)
 
 # Begin command parsing
-# Event loop
+@client.event
+async def on_message(message):
+    # Ignore messages from the bot
+    if message.author == client.user:
+        return
+
+    # Command parsing start here
+    supported_channels = ["sumire-bot"]
+    if message.channel.name in supported_channels:
+        user_input = message.content.split()
+        
+        if user_input[0] == "sumire":
+            user_input = user_input[1:]
+        
+        if user_input[0] != "talk":
+            await message.channel.send(parser.parse_command(user_input))
+        else:
+            # TODO: fix so it doesn't send a message if the user doesn't send any text
+            # also make its own loop?
+            # also need to integrate DB
+            await message.channel.send(conversation.talk(user_input[1:]))
 
 client.run(TOKEN)
