@@ -43,10 +43,10 @@ import os
 import discord
 
 from discord.ext import commands
+from discord import app_commands
 from dotenv import load_dotenv
 
-from commands import parser
-from veritas import conversation, dalle
+from veritas import conversation, dalle, parser
 
 # Set up global variables
 ctx = {
@@ -69,13 +69,23 @@ GUILD = os.getenv('DISCORD_GUILD')
 # TODO: Create database
 
 # Parser setup
-parser = parser.Parser()
+#parser = parser.Parser()
 
 # Discord Setup
 intents = discord.Intents().all()
 client = commands.Bot(command_prefix="sumire ", intents=intents)
 
 client = discord.Client(intents=intents)
+tree = app_commands.CommandTree(client)
+
+@tree.command(name = "ping", description = "Simple response to check if the bot is online")
+async def ping(interaction):
+    await interaction.response.send_message("Pong!")
+
+@client.event
+async def on_ready():
+    await tree.sync()
+    print("Ready!")
 
 # Begin command parsing
 @client.event
@@ -84,6 +94,7 @@ async def on_message(message):
     if message.author == client.user:
         return
 
+    '''
     # Command parsing start here
     supported_channels = ["sumire-bot"]
     if message.channel.name in supported_channels:
@@ -99,5 +110,6 @@ async def on_message(message):
             # also make its own loop?
             # also need to integrate DB
             await message.channel.send(conversation.talk(user_input[1:]))
+    '''
 
 client.run(TOKEN)
