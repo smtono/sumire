@@ -13,25 +13,27 @@ friendly = os.path.join(os.getcwd(), 'src', 'data', 'personality_scripts', 'frie
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
 start_sequence = "\nSumire:"
-input_prompt = "\n\nUser:"
 session_prompt = ""
 
 with open(sumire, 'r') as file:
     session_prompt = file.read()
 chat_log = f'{session_prompt}'
 
-def ask(question: str) -> str:
+def talk(user_input: str, user: str) -> str:
     """
     Generates a response to a question using the GPT-3 API
 
     Args:
-        question: str
-            The question raised by the user
+        user_input: str
+            Input from the user
+        user: str
+            The name of the user
     Returns:
         A string response to the question
     """
+    input_prompt = f"\n\n{user}"
 
-    prompt_text = f'{chat_log}{input_prompt}: {question}{start_sequence}:'
+    prompt_text = f'"User" is now{user}\n{chat_log}{input_prompt} {" ".join(user_input)}{start_sequence}'
     
     response = openai.Completion.create(
       engine="davinci",
@@ -45,5 +47,9 @@ def ask(question: str) -> str:
     )
 
     story = response['choices'][0]['text']
-    chat_log.join("\n"f'{input_prompt} {question}{start_sequence}{story}')
+    chat_log.join(f'\n{input_prompt} {user_input}{start_sequence}{story}')
+    
+    if story == "":
+        story = "wumbo"
+    
     return str(story)
