@@ -89,7 +89,7 @@ class Parser():
         # Possibly start a new thread? With only this person interacting
         
         # While loop until person says "stop"
-        answer = conversation.ask(user_input)
+        answer = conversation.talk(user_input)
 
     def dalle_command(self, user_input: str):
         """
