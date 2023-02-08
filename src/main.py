@@ -46,7 +46,8 @@ from discord.ext import commands
 from discord import app_commands
 from dotenv import load_dotenv
 
-from veritas import conversation, dalle, parser
+from veritas import conversation
+from veritas import dalle as dalle_class
 
 # Set up global variables
 ctx = {
@@ -82,34 +83,35 @@ tree = app_commands.CommandTree(client)
 async def ping(interaction):
     await interaction.response.send_message("Pong!")
 
+@tree.command(name = "dalle", description = "Generate an image")
+async def dalle(interaction: discord.Interaction, *, text: str):
+    await interaction.response.defer()
+    image_url = dalle_class.ask(text)
+    embed = discord.Embed(title="Generated Image")
+    embed.set_image(url=image_url)
+    await interaction.followup.send(embed=embed)
+
 @client.event
 async def on_ready():
     await tree.sync()
     print("Ready!")
 
-# Begin command parsing
+stop = False
+# Conversation
 @client.event
-async def on_message(message):
+async def on_message(message: discord.Message):
+    global stop
     # Ignore messages from the bot
     if message.author == client.user:
         return
+    if message.content == "sumire stop":
+        stop = True
+    if message.content == "sumire start":
+        stop = False
 
-    '''
-    # Command parsing start here
     supported_channels = ["sumire-bot"]
-    if message.channel.name in supported_channels:
+    if message.channel.name in supported_channels and not stop:
         user_input = message.content.split()
-        
-        if user_input[0] == "sumire":
-            user_input = user_input[1:]
-        
-        if user_input[0] != "talk":
-            await message.channel.send(parser.parse_command(user_input))
-        else:
-            # TODO: fix so it doesn't send a message if the user doesn't send any text
-            # also make its own loop?
-            # also need to integrate DB
-            await message.channel.send(conversation.talk(user_input[1:]))
-    '''
+        await message.channel.send(conversation.talk(user_input[0:], message.author.name))
 
 client.run(TOKEN)
