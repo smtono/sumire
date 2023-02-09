@@ -64,7 +64,6 @@ ctx = {
 # Load environment variables
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-GUILD = os.getenv('DISCORD_GUILD')
 
 # Database setup
 # TODO: Create database
@@ -87,7 +86,7 @@ async def ping(interaction):
 async def dalle(interaction: discord.Interaction, *, text: str):
     await interaction.response.defer()
     image_url = dalle_class.ask(text)
-    embed = discord.Embed(title="Generated Image")
+    embed = discord.Embed(title=text)
     embed.set_image(url=image_url)
     await interaction.followup.send(embed=embed)
 

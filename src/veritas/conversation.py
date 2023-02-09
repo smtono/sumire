@@ -15,7 +15,7 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 start_sequence = "\nSumire:"
 session_prompt = ""
 
-with open(sumire, 'r') as file:
+with open(jackass, 'r') as file:
     session_prompt = file.read()
 chat_log = f'{session_prompt}'
 
@@ -33,7 +33,7 @@ def talk(user_input: str, user: str) -> str:
     """
     input_prompt = f"\n\n{user}"
 
-    prompt_text = f'"User" is now{user}\n{chat_log}{input_prompt} {" ".join(user_input)}{start_sequence}'
+    prompt_text = f'"User" is now "{user}"\n{chat_log}{input_prompt} {" ".join(user_input)}{start_sequence}'
     
     response = openai.Completion.create(
       engine="davinci",
