@@ -90,6 +90,10 @@ async def dalle(interaction: discord.Interaction, *, text: str):
     embed.set_image(url=image_url)
     await interaction.followup.send(embed=embed)
 
+@tree.command(name = "chatlog", description = "Get a chat log")
+async def chatlog(interaction: discord.Interaction):
+    await interaction.response.send_message(conversation.get_chatlog())
+
 @client.event
 async def on_ready():
     await tree.sync()

@@ -53,3 +53,12 @@ def talk(user_input: str, user: str) -> str:
         story = "wumbo"
     
     return str(story)
+
+def get_chat_log() -> str:
+    """
+    Returns the chat log
+
+    Returns:
+        A string containing the chat log
+    """
+    return chat_log
