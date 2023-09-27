@@ -48,6 +48,7 @@ from dotenv import load_dotenv
 
 from veritas import conversation
 from veritas import dalle as dalle_class
+from veritas import tts as tts_class
 
 # Set up global variables
 ctx = {
@@ -117,6 +118,8 @@ async def on_message(message: discord.Message):
     supported_channels = ["sumire-bot"]
     if message.channel.name in supported_channels and not stop:
         user_input = message.content.split()
-        await message.channel.send(conversation.talk(user_input[0:], message.author.name))
+        text = conversation.talk(user_input[0:], message.author.name)
+        tts_class.tts(text)
+        await message.channel.send(file=discord.File(os.path.join(os.getcwd(), "src", "data", "output", "output.mp3")))
 
 client.run(TOKEN)
